@@ -18,6 +18,7 @@ Var
 
 initialization
   lLogsFolder := IncludeTrailingPathDelimiter(ExtractFilePath(GetModuleName(HInstance))) + 'logs';
+  //PerioLogger := BuildLogWriter([TLoggerProFileAppender.Create(5, 2000, lLogsFolder)]);
   PerioLogger := BuildLogWriter([TLoggerProFileAppender.Create(5, 2000, lLogsFolder),TLoggerProConsoleAppender.Create]);
 
 
