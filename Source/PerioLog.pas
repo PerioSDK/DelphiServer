@@ -5,8 +5,11 @@ interface
 uses
   System.SysUtils,
   LoggerPro,
-  LoggerPro.FileAppender,
-  LoggerPro.ConsoleAppender;
+  LoggerPro.FileAppender
+{$IFDEF MSWINDOWS}
+  ,LoggerPro.ConsoleAppender
+{$ENDIF}
+  ;
 
 Var
   PerioLogger : ILogWriter;
@@ -18,9 +21,11 @@ Var
 
 initialization
   lLogsFolder := IncludeTrailingPathDelimiter(ExtractFilePath(GetModuleName(HInstance))) + 'logs';
-  //PerioLogger := BuildLogWriter([TLoggerProFileAppender.Create(5, 2000, lLogsFolder)]);
+{$IFDEF MSWINDOWS}
   PerioLogger := BuildLogWriter([TLoggerProFileAppender.Create(5, 2000, lLogsFolder),TLoggerProConsoleAppender.Create]);
-
+{$ELSEIF DEFINED(ANDROID)}
+  PerioLogger := BuildLogWriter([TLoggerProFileAppender.Create(5, 2000, lLogsFolder)]);
+{$ENDIF}
 
 end.
 
